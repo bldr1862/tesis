@@ -1,6 +1,43 @@
 import os
 import numpy as np
+import pickle
+import json
 from tqdm import tqdm
+from collections import defaultdict
+
+from nltk.stem import PorterStemmer
+from sklearn.feature_extraction.text import CountVectorizer
+
+
+def stemming(captions):
+    stemmed_dict = defaultdict(list)
+    ps = PorterStemmer()
+    unigram_vectorizer = CountVectorizer()
+    analyze = unigram_vectorizer.build_analyzer()
+
+    for caption in captions:
+        name = caption.get('image_id')
+        des = caption.get('caption')
+
+        des_stemmed = ''
+        for word in analyze(des):
+            des_stemmed = des_stemmed + ' ' +ps.stem(word)
+        
+        stemmed_dict[name].append(des_stemmed)
+    return stemmed_dict
+
+def readCaptions(PATH):
+    with open(PATH,'rb') as handle:
+        return json.load(handle)['annotations']
+
+def savePickle(object, PATH):
+    with open(PATH,'wb') as handle:
+        pickle.dump(object,handle,2)
+
+def importPickle(PATH):
+    with open(PATH,'rb') as handle:
+        object = pickle.load(handle)
+    return object
 
 def getFiles(PATH):
     _files = []
@@ -16,13 +53,12 @@ def loadNumpyArrays(ficheros):
 
     return np.asarray(arrays)
 
-
 def DeleteFiles(FOLDER_PATH):
     for root, dirs, files in os.walk(FOLDER_PATH):
         for fichero in files:
             os.unlink(os.path.join(FOLDER_PATH,fichero))
 
-def getDescriptors(ficheros, output_folder ,cnn_network = 'vgg16'):
+def getCnnDescriptors(ficheros, output_folder ,cnn_network = 'vgg16'):
     descriptors_dict = {}
     if cnn_network == 'vgg16':
         from keras.applications import vgg16
