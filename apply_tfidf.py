@@ -10,8 +10,8 @@ from sklearn.feature_extraction.text import TfidfTransformer
 
 from tqdm import tqdm
 
-DATA_PATH = params.TEST_CAPTIONS_PATH
-OUTPUT_PATH = params.TFIDF_DESCRIPTORS_TEST_PATH
+DATA_PATH = params.VAL_CAPTIONS_PATH
+OUTPUT_PATH = params.TFIDF_DESCRIPTORS_VAL_PATH
 
 captions = utils.readCaptions(DATA_PATH)
 stemmed_dict = utils.stemming(captions)

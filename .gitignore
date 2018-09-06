@@ -3,3 +3,4 @@ DESCRIPTORS
 TMP
 __pycache__
 .ipynb_checkpoints
+*.pickle

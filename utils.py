@@ -5,23 +5,28 @@ import json
 from tqdm import tqdm
 from collections import defaultdict
 
-from nltk.stem import PorterStemmer
+from nltk.stem.snowball import SnowballStemmer
 from sklearn.feature_extraction.text import CountVectorizer
+from nltk.corpus import stopwords
 
 
 def stemming(captions):
     stemmed_dict = defaultdict(list)
-    ps = PorterStemmer()
+    stop_words = set (stopwords.words( 'english' ))
+    ps = SnowballStemmer("english", ignore_stopwords=False)
     unigram_vectorizer = CountVectorizer()
     analyze = unigram_vectorizer.build_analyzer()
 
     for caption in captions:
         name = caption.get('image_id')
-        des = caption.get('caption')
+        des = caption.get('caption').lower()
 
-        des_stemmed = ''
+        #remove stopwords
+        des_stemmed = []
         for word in analyze(des):
-            des_stemmed = des_stemmed + ' ' +ps.stem(word)
+            if word not in stop_words:
+                des_stemmed.append(ps.stem(word))
+        des_stemmed = ' '.join(des_stemmed)
         
         stemmed_dict[name].append(des_stemmed)
     return stemmed_dict
