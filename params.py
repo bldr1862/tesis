@@ -35,3 +35,5 @@ TMP_PATH = r'C:\Users\bldr1\Desktop\TESIS\TMP\\'
 USE_PCA = True
 DIM = 128 #VLAD PAPER
 
+CNN_MLP = r'C:\Users\bldr1\Desktop\TESIS\MODEL\cnn_mlp.pickle'
+CNN_VAL_INDEX = r'C:\Users\bldr1\Desktop\TESIS\MODEL\cnn_val_index.pickle'

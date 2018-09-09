@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pickle
 import json
+import params
 from tqdm import tqdm
 from collections import defaultdict
 
@@ -9,6 +10,33 @@ from nltk.stem.snowball import SnowballStemmer
 from sklearn.feature_extraction.text import CountVectorizer
 from nltk.corpus import stopwords
 
+def chunks(l, n):
+    """Yield successive n-sized chunks from l."""
+    for i in range(0, len(l), n):
+        yield l[i:i + n]
+
+def loadArray(path):
+    return np.load(path)
+
+def buildImgName(basename, folder):
+    l = len(basename)
+    z = '0'*(16-l)
+    return os.path.join(folder,'PCA_COCO_train2014_'+z+basename)
+
+def getBatch(ficheros_text, ficheros_img, batch_size):
+
+    for text_batch in chunks(ficheros_text,batch_size):
+        text_descriptors = []
+        img_descriptors = []
+        
+        for file in text_batch:
+            file_name = os.path.basename(file)
+            descriptor_text = loadArray(file).tolist()
+            for element in descriptor_text:
+                text_descriptors.append(element[0])
+                img_descriptors.append(loadArray(buildImgName(file_name, params.CNN_PCA_DESCRIPTORS_TRAIN_PATH))[0])
+            
+        yield np.asarray(text_descriptors), np.asarray(img_descriptors)
 
 def stemming(captions):
     stemmed_dict = defaultdict(list)
