@@ -5,3 +5,7 @@ __pycache__
 .ipynb_checkpoints
 *.pickle
 *.h5
+*.xlsx
+*.vec
+*.jpeg
+*.jpg

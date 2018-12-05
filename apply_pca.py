@@ -3,15 +3,15 @@ import utils
 import os
 import numpy as np
 
-input_path = params.CNN_DESCRIPTORS_TEST_PATH
-output_path = params.CNN_PCA_DESCRIPTORS_TEST_PATH
+input_path = params.VLAD_DESCRIPTORS_VAL_PATH
+output_path = params.VLAD_PCA_DESCRIPTORS_VAL_PATH
 
 ficheros = utils.getFiles(input_path)
 print('Loading Files...')
 input_arrays = utils.loadNumpyArrays(ficheros)
 
 print('Loading PCA MODEL...')
-pca = utils.importPickle(params.PCA_MODEL)
+pca = utils.importPickle(params.PCA_MODEL_VLAD)
 
 print('Saving Descriptors...')
 for array, name in zip(input_arrays, ficheros):

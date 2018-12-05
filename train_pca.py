@@ -4,7 +4,7 @@ import utils
 import pickle
 from sklearn.decomposition import PCA
 
-input_path = params.CNN_DESCRIPTORS_TRAIN_PATH
+input_path = params.VLAD_DESCRIPTORS_TRAIN_PATH
 #output_path = params.CNN_PCA_DESCRIPTORS_TRAIN_PATH
 
 ficheros = utils.getFiles(input_path)
@@ -17,7 +17,7 @@ pca.fit(input_arrays)
 
 print('Saving Model...')
 
-with open(params.PCA_MODEL,'wb') as handle:
+with open(params.PCA_MODEL_VLAD,'wb') as handle:
     pickle.dump(pca,handle,protocol=2)
 
 print('Done!')
